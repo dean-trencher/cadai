@@ -12,9 +12,9 @@ const SearchBar: React.FC = () => {
             <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
-        <input 
-          type="text" 
-          placeholder="Start building with Adam..." 
+        <input
+          type="text"
+          placeholder="Start building with CAD AI..."
           className="flex-grow bg-transparent text-white py-3 focus:outline-none"
         />
         <button className="bg-adam-pink rounded-full p-3 transition-all duration-300 hover:bg-opacity-80">
