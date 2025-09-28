@@ -12,6 +12,11 @@ import Interactive3DViewer from '@/components/Interactive3DViewer';
 import GearDemo from '@/components/demos/GearDemo';
 import EngineDemo from '@/components/demos/EngineDemo';
 import HousingDemo from '@/components/demos/HousingDemo';
+import RoboticArmDemo from '@/components/demos/RoboticArmDemo';
+import TurbineEngineDemo from '@/components/demos/TurbineEngineDemo';
+import DroneDemo from '@/components/demos/DroneDemo';
+import SuspensionDemo from '@/components/demos/SuspensionDemo';
+import PumpDemo from '@/components/demos/PumpDemo';
 const Index = () => {
   const product3dRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -75,9 +80,9 @@ const Index = () => {
           </p>
         </div>
         
-        <div className="max-w-6xl mx-auto space-y-8">
-          {/* Demo Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fade-in">
+        <div className="max-w-7xl mx-auto space-y-12">
+          {/* Demo Grid - 8 Complex Demos */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 animate-fade-in">
             {/* Gear System Demo */}
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
@@ -111,20 +116,105 @@ const Index = () => {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Housing Demo - Full Width */}
-          <div className="relative animate-fade-in">
-            <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
-              <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-                <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                  <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  <div className="ml-4 text-white/60 text-xs">Electronic Housing</div>
+            {/* Housing Demo */}
+            <div className="relative">
+              <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
+                <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
+                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="ml-4 text-white/60 text-xs">Electronic Housing</div>
+                  </div>
+                  <div className="p-4 h-full">
+                    <HousingDemo />
+                  </div>
                 </div>
-                <div className="p-4 h-full">
-                  <HousingDemo />
+              </div>
+            </div>
+
+            {/* Robotic Arm Demo */}
+            <div className="relative">
+              <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
+                <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
+                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="ml-4 text-white/60 text-xs">Robotic Arm</div>
+                  </div>
+                  <div className="p-4 h-full">
+                    <RoboticArmDemo />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Turbine Engine Demo */}
+            <div className="relative">
+              <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
+                <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
+                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="ml-4 text-white/60 text-xs">Turbine Engine</div>
+                  </div>
+                  <div className="p-4 h-full">
+                    <TurbineEngineDemo />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Drone Demo */}
+            <div className="relative">
+              <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
+                <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
+                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="ml-4 text-white/60 text-xs">Quadcopter Drone</div>
+                  </div>
+                  <div className="p-4 h-full">
+                    <DroneDemo />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Suspension Demo */}
+            <div className="relative">
+              <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
+                <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
+                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="ml-4 text-white/60 text-xs">Car Suspension</div>
+                  </div>
+                  <div className="p-4 h-full">
+                    <SuspensionDemo />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Pump Demo */}
+            <div className="relative">
+              <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
+                <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
+                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="ml-4 text-white/60 text-xs">Centrifugal Pump</div>
+                  </div>
+                  <div className="p-4 h-full">
+                    <PumpDemo />
+                  </div>
                 </div>
               </div>
             </div>
