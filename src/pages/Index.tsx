@@ -9,15 +9,16 @@ import ExampleChip from '@/components/ExampleChip';
 import YCombinatorBadge from '@/components/YCombinatorBadge';
 import SearchBar from '@/components/SearchBar';
 import Interactive3DViewer from '@/components/Interactive3DViewer';
+import GearDemo from '@/components/demos/GearDemo';
+import EngineDemo from '@/components/demos/EngineDemo';
+import HousingDemo from '@/components/demos/HousingDemo';
 const Index = () => {
   const product3dRef = useRef<HTMLDivElement>(null);
-  const deviceImageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleScroll = () => {
-      if (product3dRef.current && deviceImageRef.current) {
+      if (product3dRef.current) {
         const scrollPosition = window.scrollY;
         product3dRef.current.style.transform = `translateY(${scrollPosition * 0.05}px) rotate(${scrollPosition * 0.02}deg)`;
-        deviceImageRef.current.style.transform = `translateY(${scrollPosition * -0.03}px)`;
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -74,21 +75,60 @@ const Index = () => {
           </p>
         </div>
         
-        <div className="max-w-5xl mx-auto relative">
-          <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden animate-fade-in">
-            <div ref={deviceImageRef} className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-              <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <div className="ml-4 text-white/60 text-xs">CAD.ai Demo</div>
+        <div className="max-w-6xl mx-auto space-y-8">
+          {/* Demo Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fade-in">
+            {/* Gear System Demo */}
+            <div className="relative">
+              <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
+                <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
+                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="ml-4 text-white/60 text-xs">Gear System</div>
+                  </div>
+                  <div className="p-4 h-full">
+                    <GearDemo />
+                  </div>
+                </div>
               </div>
-              <div className="p-4">
-                <Interactive3DViewer showColorPicker={true} />
+            </div>
+
+            {/* Engine Demo */}
+            <div className="relative">
+              <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
+                <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
+                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="ml-4 text-white/60 text-xs">Engine Assembly</div>
+                  </div>
+                  <div className="p-4 h-full">
+                    <EngineDemo />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="absolute -left-4 -right-4 top-1/2 -translate-y-1/2 -z-10 h-40 bg-gradient-to-r from-adam-pink/30 via-transparent to-adam-pink/30 blur-3xl opacity-20"></div>
+
+          {/* Housing Demo - Full Width */}
+          <div className="relative animate-fade-in">
+            <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
+              <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
+                <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
+                  <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  <div className="ml-4 text-white/60 text-xs">Electronic Housing</div>
+                </div>
+                <div className="p-4 h-full">
+                  <HousingDemo />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
