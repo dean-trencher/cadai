@@ -14,45 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      config: {
-        Row: {
-          contract_address: string | null
-          id: number
-          pump_fun_link: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          contract_address?: string | null
-          id?: number
-          pump_fun_link?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          contract_address?: string | null
-          id?: number
-          pump_fun_link?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      waiting_list: {
-        Row: {
-          created_at: string | null
-          email: string
-          id: string
-        }
-        Insert: {
-          created_at?: string | null
-          email: string
-          id?: string
-        }
-        Update: {
-          created_at?: string | null
-          email?: string
-          id?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
