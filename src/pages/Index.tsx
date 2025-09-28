@@ -87,12 +87,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
                 <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-white/60 text-xs">Gear System</div>
-                  </div>
+                  
                   <div className="p-4 h-full">
                     <GearDemo />
                   </div>
@@ -104,12 +99,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
                 <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-white/60 text-xs">Engine Assembly</div>
-                  </div>
+                  
                   <div className="p-4 h-full">
                     <EngineDemo />
                   </div>
@@ -121,12 +111,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
                 <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-white/60 text-xs">Electronic Housing</div>
-                  </div>
+                  
                   <div className="p-4 h-full">
                     <HousingDemo />
                   </div>
@@ -138,12 +123,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
                 <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-white/60 text-xs">Robotic Arm</div>
-                  </div>
+                  
                   <div className="p-4 h-full">
                     <RoboticArmDemo />
                   </div>
@@ -155,12 +135,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
                 <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-white/60 text-xs">Turbine Engine</div>
-                  </div>
+                  
                   <div className="p-4 h-full">
                     <TurbineEngineDemo />
                   </div>
@@ -172,12 +147,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
                 <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-white/60 text-xs">Quadcopter Drone</div>
-                  </div>
+                  
                   <div className="p-4 h-full">
                     <DroneDemo />
                   </div>
@@ -189,12 +159,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
                 <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-white/60 text-xs">Car Suspension</div>
-                  </div>
+                  
                   <div className="p-4 h-full">
                     <SuspensionDemo />
                   </div>
@@ -206,12 +171,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
                 <div className="relative w-full aspect-video bg-[#1E1C20] rounded-md overflow-hidden">
-                  <div className="w-full h-10 bg-[#0F0E10] flex items-center px-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 text-white/60 text-xs">Centrifugal Pump</div>
-                  </div>
+                  
                   <div className="p-4 h-full">
                     <PumpDemo />
                   </div>
