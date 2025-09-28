@@ -24,18 +24,18 @@ const CryptoLogosBar = () => {
   const duplicatedLogos = [...cryptoLogos, ...cryptoLogos];
 
   return (
-    <div className="w-full py-12 bg-gradient-to-r from-adam-darker via-adam-gray/20 to-adam-darker overflow-hidden">
+    <div className="w-full py-16 bg-gradient-to-r from-background via-muted/5 to-background overflow-hidden border-t border-border/10">
       <div className="flex animate-[scroll_30s_linear_infinite] whitespace-nowrap">
         {duplicatedLogos.map((crypto, index) => (
           <div
             key={`${crypto.name}-${index}`}
-            className="flex items-center justify-center mx-8 min-w-[120px] group"
+            className="flex items-center justify-center mx-12 min-w-[140px] group"
           >
-            <div className="flex flex-col items-center gap-2 transition-transform duration-300 group-hover:scale-110">
-              <div className="text-3xl filter grayscale group-hover:grayscale-0 transition-all duration-300">
+            <div className="flex flex-col items-center gap-3 transition-all duration-500 group-hover:scale-110">
+              <div className="text-4xl opacity-40 group-hover:opacity-100 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,59,154,0.3)]">
                 {crypto.logo}
               </div>
-              <span className="text-xs text-white/50 group-hover:text-white/80 transition-colors duration-300 font-medium">
+              <span className="text-xs text-muted-foreground group-hover:text-primary transition-all duration-500 font-medium tracking-wider">
                 {crypto.name}
               </span>
             </div>
