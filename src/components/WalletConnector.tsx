@@ -49,7 +49,7 @@ const WalletConnector: React.FC = () => {
 
   if (!isPhantomInstalled) {
     return (
-      <div className="flex flex-col items-center gap-4 p-6 border border-border rounded-lg bg-card">
+      <div className="flex flex-col items-center gap-4 p-6 border border-primary/20 rounded-lg bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
         <Wallet className="w-12 h-12 text-muted-foreground" />
         <div className="text-center">
           <h3 className="text-lg font-semibold mb-2">Phantom Wallet Not Detected</h3>
@@ -68,7 +68,7 @@ const WalletConnector: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 p-6 border border-border rounded-lg bg-card">
+    <div className="flex flex-col items-center gap-4 p-6 border border-primary/20 rounded-lg bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
       <div className="flex items-center gap-2">
         <Wallet className="w-6 h-6 text-primary" />
         <span className="text-sm font-medium text-muted-foreground">Phantom Wallet Detected</span>
