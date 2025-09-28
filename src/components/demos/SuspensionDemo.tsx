@@ -88,7 +88,7 @@ const ControlArm: React.FC<{ position: [number, number, number]; rotation: [numb
   );
 };
 
-const SuspensionDemo: React.FC = () => {
+const SuspensionSystem: React.FC = () => {
   const suspensionRef = useRef<Group>(null);
   
   useFrame((state) => {
@@ -100,39 +100,45 @@ const SuspensionDemo: React.FC = () => {
   });
 
   return (
+    <group ref={suspensionRef}>
+      {/* Wheels */}
+      <Wheel position={[-1.5, -1, 0]} />
+      <Wheel position={[1.5, -1, 0]} />
+      
+      {/* Springs and dampers */}
+      <SpringDamper position={[-1.2, 0, 0]} compression={Math.sin(Date.now() * 0.003) * 0.1} />
+      <SpringDamper position={[1.2, 0, 0]} compression={Math.sin(Date.now() * 0.003 + Math.PI) * 0.1} />
+      
+      {/* Control arms */}
+      <ControlArm position={[-1, -0.3, 0.2]} rotation={[0, 0, -0.1]} />
+      <ControlArm position={[1, -0.3, 0.2]} rotation={[0, 0, 0.1]} />
+      <ControlArm position={[-1, -0.3, -0.2]} rotation={[0, 0, -0.1]} />
+      <ControlArm position={[1, -0.3, -0.2]} rotation={[0, 0, 0.1]} />
+      
+      {/* Chassis */}
+      <mesh position={[0, 0.5, 0]} castShadow>
+        <boxGeometry args={[3, 0.2, 1]} />
+        <meshStandardMaterial color="#2C3E50" metalness={0.7} roughness={0.3} />
+      </mesh>
+      
+      {/* Anti-roll bar */}
+      <mesh position={[0, -0.2, 0]} rotation={[0, 0, Math.PI/2]} castShadow>
+        <cylinderGeometry args={[0.04, 0.04, 2.8]} />
+        <meshStandardMaterial color="#34495E" metalness={0.8} roughness={0.2} />
+      </mesh>
+    </group>
+  );
+};
+
+const SuspensionDemo: React.FC = () => {
+  return (
     <div className="w-full aspect-video bg-adam-darker/50 border border-white/10 rounded-lg overflow-hidden relative">
       <Canvas camera={{ position: [4, 2, 4], fov: 50 }}>
         <ambientLight intensity={0.4} />
         <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
         <pointLight position={[-5, 5, 5]} intensity={0.3} color="#3498DB" />
         
-        <group ref={suspensionRef}>
-          {/* Wheels */}
-          <Wheel position={[-1.5, -1, 0]} />
-          <Wheel position={[1.5, -1, 0]} />
-          
-          {/* Springs and dampers */}
-          <SpringDamper position={[-1.2, 0, 0]} compression={Math.sin(Date.now() * 0.003) * 0.1} />
-          <SpringDamper position={[1.2, 0, 0]} compression={Math.sin(Date.now() * 0.003 + Math.PI) * 0.1} />
-          
-          {/* Control arms */}
-          <ControlArm position={[-1, -0.3, 0.2]} rotation={[0, 0, -0.1]} />
-          <ControlArm position={[1, -0.3, 0.2]} rotation={[0, 0, 0.1]} />
-          <ControlArm position={[-1, -0.3, -0.2]} rotation={[0, 0, -0.1]} />
-          <ControlArm position={[1, -0.3, -0.2]} rotation={[0, 0, 0.1]} />
-          
-          {/* Chassis */}
-          <mesh position={[0, 0.5, 0]} castShadow>
-            <boxGeometry args={[3, 0.2, 1]} />
-            <meshStandardMaterial color="#2C3E50" metalness={0.7} roughness={0.3} />
-          </mesh>
-          
-          {/* Anti-roll bar */}
-          <mesh position={[0, -0.2, 0]} rotation={[0, 0, Math.PI/2]} castShadow>
-            <cylinderGeometry args={[0.04, 0.04, 2.8]} />
-            <meshStandardMaterial color="#34495E" metalness={0.8} roughness={0.2} />
-          </mesh>
-        </group>
+        <SuspensionSystem />
         
         <OrbitControls enableZoom={true} />
       </Canvas>
