@@ -20,6 +20,7 @@ import TurbineEngineDemo from '@/components/demos/TurbineEngineDemo';
 import DroneDemo from '@/components/demos/DroneDemo';
 import SuspensionDemo from '@/components/demos/SuspensionDemo';
 import PumpDemo from '@/components/demos/PumpDemo';
+import CryptoLogosBar from '@/components/CryptoLogosBar';
 const Index = () => {
   const product3dRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -214,6 +215,9 @@ const Index = () => {
           <ExampleChip text="Create an enclosure for a raspberry pi 4" />
         </div>
       </section>
+
+      {/* Crypto Technologies Bar */}
+      <CryptoLogosBar />
 
       {/* Web3 Wallet Section */}
       <section className="w-full py-24 px-4">
