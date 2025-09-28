@@ -9,6 +9,8 @@ import ExampleChip from '@/components/ExampleChip';
 import YCombinatorBadge from '@/components/YCombinatorBadge';
 import SearchBar from '@/components/SearchBar';
 import Interactive3DViewer from '@/components/Interactive3DViewer';
+import WalletConnector from '@/components/WalletConnector';
+import Web3Status from '@/components/Web3Status';
 import GearDemo from '@/components/demos/GearDemo';
 import EngineDemo from '@/components/demos/EngineDemo';
 import HousingDemo from '@/components/demos/HousingDemo';
@@ -30,6 +32,9 @@ const Index = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   return <div className="flex flex-col min-h-screen bg-adam-darker text-white overflow-x-hidden">
+      {/* Web3 Status */}
+      <Web3Status />
+      
       {/* Announcement Bar */}
       <AnnouncementBar />
 
@@ -203,6 +208,20 @@ const Index = () => {
           <ExampleChip text="Small desktop plant pot for succulents" />
           <ExampleChip text="Design a futuristic mug" />
           <ExampleChip text="Create an enclosure for a raspberry pi 4" />
+        </div>
+      </section>
+
+      {/* Web3 Wallet Section */}
+      <section className="w-full py-24 px-4">
+        <div className="max-w-5xl mx-auto text-center mb-12 animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Connect with Web3</h2>
+          <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
+            Connect your Solana wallet to unlock Web3 features and authenticate securely.
+          </p>
+        </div>
+        
+        <div className="max-w-md mx-auto animate-fade-in">
+          <WalletConnector />
         </div>
       </section>
 
