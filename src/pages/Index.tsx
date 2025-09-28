@@ -11,6 +11,7 @@ import SearchBar from '@/components/SearchBar';
 import Interactive3DViewer from '@/components/Interactive3DViewer';
 import WalletConnector from '@/components/WalletConnector';
 import Web3Status from '@/components/Web3Status';
+import HeaderWalletButton from '@/components/HeaderWalletButton';
 import GearDemo from '@/components/demos/GearDemo';
 import EngineDemo from '@/components/demos/EngineDemo';
 import HousingDemo from '@/components/demos/HousingDemo';
@@ -41,7 +42,10 @@ const Index = () => {
       {/* Header */}
       <header className="w-full max-w-7xl mx-auto px-4 py-6 flex justify-between items-center animate-fade-in">
         <Logo />
-        <ButtonPrimary>GET IN TOUCH</ButtonPrimary>
+        <div className="flex items-center gap-4">
+          <HeaderWalletButton />
+          <ButtonPrimary>GET IN TOUCH</ButtonPrimary>
+        </div>
       </header>
 
       {/* Hero Section */}
