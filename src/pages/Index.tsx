@@ -34,20 +34,20 @@ const Index = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="hero-gradient w-full pt-16 pb-24 px-4 md:px-8 lg:px-0 bg-slate-950">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
+      <section className="hero-gradient w-full pt-20 pb-32 px-4 md:px-8 lg:px-0 bg-slate-950">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16">
           {/* Left Content */}
           <div className="lg:w-1/2 animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-              Speak anything<br />into <span className="text-adam-pink">existence</span>
+            <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
+              Transform ideas into <span className="text-adam-pink">CAD models</span><br />with AI-powered design
             </h1>
-            <p className="mt-6 text-xl text-white/80">
-              Generate CAD with AI in seconds.
+            <p className="text-xl text-white/70 leading-relaxed">
+              Professional CAD generation in seconds. Speak your designs into reality.
             </p>
-            <div className="mt-10">
+            <div className="mt-8">
               <Link to="/chat">
                 <ButtonSecondary icon={true} className="group">
-                  Try Adam Now
+                  Try CAD.ai Now
                 </ButtonSecondary>
               </Link>
             </div>
@@ -68,9 +68,9 @@ const Index = () => {
       {/* See Adam in Action Section */}
       <section className="w-full py-24 px-4">
         <div className="max-w-5xl mx-auto text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold">See Adam in action</h2>
-          <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
-            Adam is the fastest to way to convert ideas into reality. Speak your prototypes into existence.
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">See CAD.ai in action</h2>
+          <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
+            The fastest way to convert ideas into professional CAD models. Transform concepts into reality with voice commands.
           </p>
         </div>
         
@@ -81,7 +81,7 @@ const Index = () => {
                 <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <div className="ml-4 text-white/60 text-xs">Adam Demo</div>
+                <div className="ml-4 text-white/60 text-xs">CAD.ai Demo</div>
               </div>
               <div className="p-4">
                 <Interactive3DViewer showColorPicker={true} />
@@ -95,9 +95,9 @@ const Index = () => {
       {/* Build Anything Section */}
       <section className="w-full py-24 px-4">
         <div className="max-w-5xl mx-auto text-center mb-12 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold">Build anything with natural language</h2>
-          <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
-            Whether for industrial design or mechanical engineering, Adam brings ideas to life.
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Design anything with natural language</h2>
+          <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
+            From industrial design to mechanical engineering, CAD.ai transforms your voice into professional CAD models.
           </p>
         </div>
         
@@ -122,11 +122,11 @@ const Index = () => {
           <div className="flex gap-6 mb-6 md:mb-0">
             <a href="#" className="text-white/60 hover:text-white transition-colors flex items-center gap-2">
               <Twitter size={18} />
-              <span className="text-sm">@makewithdam</span>
+              <span className="text-sm">@cadai</span>
             </a>
             <a href="#" className="text-white/60 hover:text-white transition-colors flex items-center gap-2">
               <Mail size={18} />
-              <span className="text-sm">hello@adam.ai</span>
+              <span className="text-sm">hello@cad.ai</span>
             </a>
           </div>
           <Logo />
