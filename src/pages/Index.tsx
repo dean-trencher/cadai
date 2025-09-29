@@ -241,10 +241,7 @@ const Index = () => {
       <footer className="w-full py-10 px-4 border-t border-white/10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
           <div className="flex gap-6 mb-6 md:mb-0">
-            <a href="#" className="text-white/60 hover:text-white transition-colors flex items-center gap-2">
-              <Twitter size={18} />
-              <span className="text-sm">@cadai</span>
-            </a>
+            
             <a href="#" className="text-white/60 hover:text-white transition-colors flex items-center gap-2">
               <Mail size={18} />
               <span className="text-sm">hello@cad.ai</span>
