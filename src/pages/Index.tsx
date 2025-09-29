@@ -12,6 +12,7 @@ import Interactive3DViewer from '@/components/Interactive3DViewer';
 import WalletConnector from '@/components/WalletConnector';
 import Web3Status from '@/components/Web3Status';
 import HeaderWalletButton from '@/components/HeaderWalletButton';
+import WalletSidebarTrigger from '@/components/WalletSidebarTrigger';
 import GearDemo from '@/components/demos/GearDemo';
 import EngineDemo from '@/components/demos/EngineDemo';
 import HousingDemo from '@/components/demos/HousingDemo';
@@ -36,6 +37,9 @@ const Index = () => {
   return <div className="flex flex-col min-h-screen bg-adam-darker text-white overflow-x-hidden">
       {/* Web3 Status */}
       <Web3Status />
+      
+      {/* Wallet Sidebar Trigger */}
+      <WalletSidebarTrigger />
       
       {/* Announcement Bar */}
       <AnnouncementBar />
