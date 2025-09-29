@@ -1,84 +1,68 @@
 
-import React, { useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { useState } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { Mesh } from 'three';
-
-interface CubeProps {
-  color: string;
-  autoRotate?: boolean;
-}
-
-const Cube: React.FC<CubeProps> = ({ color, autoRotate = true }) => {
-  const meshRef = useRef<Mesh>(null);
-  
-  useFrame(() => {
-    if (meshRef.current && autoRotate) {
-      // Auto-rotate the cube slightly when not being interacted with
-      meshRef.current.rotation.x += 0.002;
-      meshRef.current.rotation.y += 0.002;
-    }
-  });
-
-  return (
-    <mesh ref={meshRef} castShadow>
-      <boxGeometry args={[2, 2, 2]} />
-      <meshStandardMaterial color={color} />
-    </mesh>
-  );
-};
+import Parametric3DModel from './chat/Parametric3DModel';
+import { ModelParameters } from '@/hooks/useModelParameters';
 
 interface Interactive3DViewerProps {
   showColorPicker?: boolean;
+  parameters?: ModelParameters;
   autoRotate?: boolean;
-  simple?: boolean;
 }
 
 const Interactive3DViewer: React.FC<Interactive3DViewerProps> = ({ 
-  showColorPicker = true, 
-  autoRotate = true,
-  simple = false
+  showColorPicker = false,
+  parameters,
+  autoRotate = true
 }) => {
-  const [cubeColor, setCubeColor] = useState<string>('#FF3B9A'); // Default to adam-pink
-  
-  const colors = [
-    { name: 'Pink', value: '#FF3B9A' },
-    { name: 'Blue', value: '#0EA5E9' },
-    { name: 'Green', value: '#10B981' },
-    { name: 'Purple', value: '#8B5CF6' },
-    { name: 'Orange', value: '#F97316' },
-  ];
+  const [cubeColor, setCubeColor] = useState('#4A90E2');
+
+  // Default parameters if none provided
+  const defaultParameters: ModelParameters = {
+    length: 100,
+    width: 20,
+    height: 20,
+    holeDiameter: 8,
+    holeSpacing: 15,
+    filletRadius: 2
+  };
+
+  const activeParameters = parameters || defaultParameters;
 
   return (
-    <div className={`w-full ${simple ? '' : 'aspect-video'} flex flex-col rounded-lg overflow-hidden ${simple ? '' : 'bg-adam-darker/50 border border-white/10'}`}>
-      <div className="flex-1 relative">
-        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-          <ambientLight intensity={0.5} />
-          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
-          <Cube color={cubeColor} autoRotate={autoRotate} />
-          <OrbitControls enableZoom={false} />
-        </Canvas>
+    <div className="w-full h-96 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg overflow-hidden shadow-lg">
+      <Canvas
+        camera={{ position: [4, 4, 4], fov: 60 }}
+        style={{ width: '100%', height: '100%' }}
+      >
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[10, 10, 5]} intensity={1} />
+        <pointLight position={[-10, -10, -5]} intensity={0.5} />
         
-        {showColorPicker && (
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-            <div className="bg-white/10 backdrop-blur-sm px-3 py-2 rounded-full flex gap-2">
-              {colors.map((color) => (
-                <button
-                  key={color.value}
-                  className="w-6 h-6 rounded-full transition-transform hover:scale-110 active:scale-95"
-                  style={{ backgroundColor: color.value, outline: cubeColor === color.value ? '2px solid white' : 'none' }}
-                  onClick={() => setCubeColor(color.value)}
-                  aria-label={`Set color to ${color.name}`}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-      
-      {!simple && (
-        <div className="p-3 text-center text-sm text-white/70">
-          Drag to rotate • Click colors to change
+        <Parametric3DModel 
+          parameters={activeParameters}
+          autoRotate={autoRotate}
+        />
+        
+        <OrbitControls 
+          enablePan={true} 
+          enableZoom={true} 
+          enableRotate={true}
+          maxDistance={10}
+          minDistance={2}
+        />
+      </Canvas>
+
+      {showColorPicker && (
+        <div className="absolute bottom-4 right-4 bg-white rounded-lg p-2 shadow-lg">
+          <input
+            type="color"
+            value={cubeColor}
+            onChange={(e) => setCubeColor(e.target.value)}
+            className="w-8 h-8 rounded border-none cursor-pointer"
+            title="Choose cube color"
+          />
         </div>
       )}
     </div>

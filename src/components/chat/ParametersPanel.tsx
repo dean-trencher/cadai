@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { ModelParameters } from '@/hooks/useModelParameters';
 
 interface SliderProps {
   label: string;
@@ -38,24 +39,20 @@ const Slider: React.FC<SliderProps> = ({ label, value, max, onChange }) => {
   );
 };
 
-const ParametersPanel: React.FC = () => {
-  const { toast } = useToast();
-  const [parameters, setParameters] = React.useState({
-    length: 100,
-    width: 20,
-    height: 20,
-    holeDiameter: 8,
-    holeSpacing: 15,
-    filletRadius: 2
-  });
+interface ParametersPanelProps {
+  parameters: ModelParameters;
+  onParameterChange: (key: keyof ModelParameters, value: number) => void;
+}
 
+const ParametersPanel: React.FC<ParametersPanelProps> = ({ 
+  parameters, 
+  onParameterChange 
+}) => {
+  const { toast } = useToast();
   const [isDownloading, setIsDownloading] = React.useState(false);
 
-  const updateParameter = (key: keyof typeof parameters, value: number) => {
-    setParameters(prev => ({
-      ...prev,
-      [key]: value
-    }));
+  const updateParameter = (key: keyof ModelParameters, value: number) => {
+    onParameterChange(key, value);
     
     // Show feedback when parameters change
     toast({

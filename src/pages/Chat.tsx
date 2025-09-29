@@ -9,6 +9,7 @@ import FeedbackModal from '../components/chat/FeedbackModal';
 import Logo from '@/components/Logo';
 import { useToast } from '@/hooks/use-toast';
 import { useWalletDetection } from '@/hooks/useWalletDetection';
+import { useModelParameters } from '@/hooks/useModelParameters';
 
 // Import images
 import laptopStandImage from '@/assets/laptop-stand-cad.jpg';
@@ -54,6 +55,7 @@ const Chat = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const { toast } = useToast();
   const { isConnected, walletAddress } = useWalletDetection();
+  const { parameters, updateParameter } = useModelParameters();
 
   const featuredProjects = [{
     title: 'Jewelry Holder',
@@ -237,8 +239,11 @@ const Chat = () => {
             <ChatConversation messages={messages} />
             <ChatControls onSubmit={handleNewMessage} />
           </div>
-          <ModelViewer />
-          <ParametersPanel />
+          <ModelViewer parameters={parameters} />
+          <ParametersPanel 
+            parameters={parameters}
+            onParameterChange={updateParameter}
+          />
         </div>
       ) : (
         <div className="flex-1 flex flex-col overflow-y-auto pb-20">
