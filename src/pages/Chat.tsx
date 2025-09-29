@@ -8,6 +8,7 @@ import ChatControls from '../components/chat/ChatControls';
 import FeedbackModal from '../components/chat/FeedbackModal';
 import Logo from '@/components/Logo';
 import { useToast } from '@/hooks/use-toast';
+import { useWalletDetection } from '@/hooks/useWalletDetection';
 
 // Import images
 import laptopStandImage from '@/assets/laptop-stand-cad.jpg';
@@ -52,6 +53,7 @@ const Chat = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const { toast } = useToast();
+  const { isConnected, walletAddress } = useWalletDetection();
 
   const featuredProjects = [{
     title: 'Jewelry Holder',
@@ -206,12 +208,16 @@ const Chat = () => {
           
           {!sidebarCollapsed && (
             <div className="flex items-center gap-2 mt-4 py-2">
-              <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-bold">
-                SB
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-adam-pink to-purple-500 text-white flex items-center justify-center font-bold text-sm">
+                {isConnected ? walletAddress?.slice(0, 2).toUpperCase() : 'AN'}
               </div>
               <div className="flex flex-col text-xs">
-                <span className="text-white">Jean Paul Gautier</span>
-                <span className="text-white/60">jp.gautier@gmail.com</span>
+                <span className="text-white">
+                  {isConnected ? `${walletAddress?.slice(0, 6)}...${walletAddress?.slice(-4)}` : 'Anonymous'}
+                </span>
+                <span className="text-white/60">
+                  {isConnected ? 'Wallet Connected' : 'Not Connected'}
+                </span>
               </div>
             </div>
           )}
