@@ -1,7 +1,6 @@
 import React from 'react';
 import { X, Wallet, Copy, ExternalLink, ChevronRight } from 'lucide-react';
 import { useWalletDetection } from '@/hooks/useWalletDetection';
-import { useSolanaBalance } from '@/hooks/useSolanaBalance';
 import { useToast } from '@/hooks/use-toast';
 
 interface WalletSidebarProps {
@@ -11,7 +10,6 @@ interface WalletSidebarProps {
 
 const WalletSidebar: React.FC<WalletSidebarProps> = ({ isOpen, onClose }) => {
   const { isConnected, walletAddress, disconnectWallet } = useWalletDetection();
-  const { balance, loading } = useSolanaBalance(walletAddress);
   const { toast } = useToast();
 
   const copyAddress = () => {
@@ -77,23 +75,8 @@ const WalletSidebar: React.FC<WalletSidebarProps> = ({ isOpen, onClose }) => {
             </button>
           </div>
 
-          {/* Balance Section */}
+          {/* Content Section */}
           <div className="p-6 space-y-6">
-            <div className="bg-gradient-to-br from-adam-gray/20 to-adam-gray/10 rounded-xl p-6 border border-adam-gray/20">
-              <div className="text-center">
-                <p className="text-sm text-white/60 mb-2">Total Balance</p>
-                {loading ? (
-                  <div className="animate-pulse">
-                    <div className="h-8 bg-adam-gray/40 rounded w-24 mx-auto"></div>
-                  </div>
-                ) : (
-                  <div className="text-3xl font-bold text-white mb-1">
-                    {balance?.toFixed(4) || '0.0000'} SOL
-                  </div>
-                )}
-                <p className="text-xs text-white/40">Devnet Balance</p>
-              </div>
-            </div>
 
             {/* Wallet Address */}
             <div className="space-y-3">
