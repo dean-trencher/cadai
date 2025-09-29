@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 interface SliderProps {
   label: string;
@@ -38,6 +39,7 @@ const Slider: React.FC<SliderProps> = ({ label, value, max, onChange }) => {
 };
 
 const ParametersPanel: React.FC = () => {
+  const { toast } = useToast();
   const [parameters, setParameters] = React.useState({
     length: 100,
     width: 20,
@@ -47,11 +49,150 @@ const ParametersPanel: React.FC = () => {
     filletRadius: 2
   });
 
+  const [isDownloading, setIsDownloading] = React.useState(false);
+
   const updateParameter = (key: keyof typeof parameters, value: number) => {
     setParameters(prev => ({
       ...prev,
       [key]: value
     }));
+    
+    // Show feedback when parameters change
+    toast({
+      title: "Parameter Updated",
+      description: `${key} set to ${value}`,
+      duration: 1000,
+    });
+  };
+
+  const generateSTL = () => {
+    const { length, width, height, holeDiameter, holeSpacing, filletRadius } = parameters;
+    
+    // Generate basic STL content based on parameters
+    const stlContent = `solid CAD_AI_Object
+facet normal 0.0 0.0 1.0
+  outer loop
+    vertex 0.0 0.0 ${height}
+    vertex ${length} 0.0 ${height}
+    vertex ${length} ${width} ${height}
+  endloop
+endfacet
+facet normal 0.0 0.0 1.0
+  outer loop
+    vertex 0.0 0.0 ${height}
+    vertex ${length} ${width} ${height}
+    vertex 0.0 ${width} ${height}
+  endloop
+endfacet
+facet normal 0.0 0.0 -1.0
+  outer loop
+    vertex 0.0 0.0 0.0
+    vertex ${length} ${width} 0.0
+    vertex ${length} 0.0 0.0
+  endloop
+endfacet
+facet normal 0.0 0.0 -1.0
+  outer loop
+    vertex 0.0 0.0 0.0
+    vertex 0.0 ${width} 0.0
+    vertex ${length} ${width} 0.0
+  endloop
+endfacet
+facet normal 0.0 -1.0 0.0
+  outer loop
+    vertex 0.0 0.0 0.0
+    vertex ${length} 0.0 0.0
+    vertex ${length} 0.0 ${height}
+  endloop
+endfacet
+facet normal 0.0 -1.0 0.0
+  outer loop
+    vertex 0.0 0.0 0.0
+    vertex ${length} 0.0 ${height}
+    vertex 0.0 0.0 ${height}
+  endloop
+endfacet
+facet normal 1.0 0.0 0.0
+  outer loop
+    vertex ${length} 0.0 0.0
+    vertex ${length} ${width} 0.0
+    vertex ${length} ${width} ${height}
+  endloop
+endfacet
+facet normal 1.0 0.0 0.0
+  outer loop
+    vertex ${length} 0.0 0.0
+    vertex ${length} ${width} ${height}
+    vertex ${length} 0.0 ${height}
+  endloop
+endfacet
+facet normal 0.0 1.0 0.0
+  outer loop
+    vertex ${length} ${width} 0.0
+    vertex 0.0 ${width} 0.0
+    vertex 0.0 ${width} ${height}
+  endloop
+endfacet
+facet normal 0.0 1.0 0.0
+  outer loop
+    vertex ${length} ${width} 0.0
+    vertex 0.0 ${width} ${height}
+    vertex ${length} ${width} ${height}
+  endloop
+endfacet
+facet normal -1.0 0.0 0.0
+  outer loop
+    vertex 0.0 ${width} 0.0
+    vertex 0.0 0.0 0.0
+    vertex 0.0 0.0 ${height}
+  endloop
+endfacet
+facet normal -1.0 0.0 0.0
+  outer loop
+    vertex 0.0 ${width} 0.0
+    vertex 0.0 0.0 ${height}
+    vertex 0.0 ${width} ${height}
+  endloop
+endfacet
+endsolid CAD_AI_Object`;
+
+    return stlContent;
+  };
+
+  const downloadSTL = async () => {
+    setIsDownloading(true);
+    
+    try {
+      // Generate STL content
+      const stlContent = generateSTL();
+      
+      // Create blob and download
+      const blob = new Blob([stlContent], { type: 'application/sla' });
+      const url = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `cad-ai-object-${Date.now()}.stl`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "STL Downloaded",
+        description: "Your 3D model has been downloaded successfully!",
+      });
+      
+    } catch (error) {
+      toast({
+        title: "Download Failed",
+        description: "Failed to generate STL file. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
@@ -97,13 +238,29 @@ const ParametersPanel: React.FC = () => {
             </div>
           </div>
         </div>
-        <button className="w-full mt-4 py-2 bg-white/10 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-white/20 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          <span>STL</span>
+        <button 
+          onClick={downloadSTL}
+          disabled={isDownloading}
+          className="w-full mt-4 py-2 bg-adam-pink/80 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-adam-pink transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isDownloading ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>Generating...</span>
+            </>
+          ) : (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download STL</span>
+            </>
+          )}
         </button>
       </div>
     </div>
