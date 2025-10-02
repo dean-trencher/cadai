@@ -48,6 +48,7 @@ const Chat = () => {
   const [messages, setMessages] = useState<Array<{id: string; content: string; isUser: boolean}>>([]);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { isConnected, walletAddress } = useWalletDetection();
   const { parameters, updateParameter } = useModelParameters();
@@ -111,7 +112,8 @@ const Chat = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (prompt.trim()) {
+    if (prompt.trim() && !isLoading) {
+      setIsLoading(true);
       const newMessage = {
         id: Date.now().toString(),
         content: prompt,
@@ -140,34 +142,37 @@ const Chat = () => {
           throw new Error('Failed to get AI response');
         }
 
-        const data = await response.json();
-        
-        // Try to parse 3D parameters from AI response
+      const data = await response.json();
+      
+      // Parse 3D parameters from AI response
+      try {
+        // Try to parse as JSON directly first
+        let parsed;
         try {
-          const jsonMatch = data.message.match(/\{[\s\S]*"parameters"[\s\S]*\}/);
+          parsed = JSON.parse(data.message);
+        } catch {
+          // If direct parse fails, try regex extraction
+          const jsonMatch = data.message.match(/\{[\s\S]*?"parameters"[\s\S]*?\}/);
           if (jsonMatch) {
-            const parsed = JSON.parse(jsonMatch[0]);
-            if (parsed.parameters) {
-              // Update model parameters
-              Object.entries(parsed.parameters).forEach(([key, value]) => {
-                updateParameter(key as keyof typeof parameters, value as number);
-              });
-              
-              // Show only the description in chat
-              const aiResponse = {
-                id: (Date.now() + 1).toString(),
-                content: parsed.description || data.message,
-                isUser: false
-              };
-              setMessages(prev => [...prev, aiResponse]);
-            } else {
-              throw new Error('No parameters found');
-            }
-          } else {
-            throw new Error('No JSON found');
+            parsed = JSON.parse(jsonMatch[0]);
           }
-        } catch (parseError) {
-          // If parsing fails, show the raw message
+        }
+        
+        if (parsed?.parameters) {
+          // Update model parameters
+          Object.entries(parsed.parameters).forEach(([key, value]) => {
+            updateParameter(key as keyof typeof parameters, value as number);
+          });
+          
+          // Show only the description in chat
+          const aiResponse = {
+            id: (Date.now() + 1).toString(),
+            content: parsed.description || 'Object 3D berhasil dibuat',
+            isUser: false
+          };
+          setMessages(prev => [...prev, aiResponse]);
+        } else {
+          // No parameters, show raw message
           const aiResponse = {
             id: (Date.now() + 1).toString(),
             content: data.message,
@@ -175,18 +180,36 @@ const Chat = () => {
           };
           setMessages(prev => [...prev, aiResponse]);
         }
+      } catch (parseError) {
+        console.error('Parse error:', parseError);
+        // If all parsing fails, show the raw message
+        const aiResponse = {
+          id: (Date.now() + 1).toString(),
+          content: data.message || 'Gagal memproses response AI',
+          isUser: false
+        };
+        setMessages(prev => [...prev, aiResponse]);
+      }
       } catch (error) {
         console.error('Error:', error);
+        
         toast({
           title: "Error",
-          description: "Failed to get AI response. Please try again.",
+          description: error instanceof Error && error.message.includes('429') 
+            ? "Rate limit tercapai. Silakan coba lagi dalam beberapa saat atau gunakan Lovable AI dengan Gemini (gratis sampai 6 Okt 2025)."
+            : "Gagal mendapatkan response AI. Silakan coba lagi.",
           variant: "destructive",
         });
+      } finally {
+        setIsLoading(false);
       }
     }
   };
   
   const handleNewMessage = async (message: string) => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
     const newMessage = {
       id: Date.now().toString(),
       content: message,
@@ -215,46 +238,64 @@ const Chat = () => {
 
       const data = await response.json();
       
-      // Try to parse 3D parameters from AI response
+      // Parse 3D parameters from AI response
       try {
-        const jsonMatch = data.message.match(/\{[\s\S]*"parameters"[\s\S]*\}/);
-        if (jsonMatch) {
-          const parsed = JSON.parse(jsonMatch[0]);
-          if (parsed.parameters) {
-            // Update model parameters
-            Object.entries(parsed.parameters).forEach(([key, value]) => {
-              updateParameter(key as keyof typeof parameters, value as number);
-            });
-            
-            // Show only the description in chat
-            const aiResponse = {
-              id: (Date.now() + 1).toString(),
-              content: parsed.description || data.message,
-              isUser: false
-            };
-            setMessages(prev => [...prev, aiResponse]);
-          } else {
-            throw new Error('No parameters found');
+        // Try to parse as JSON directly first
+        let parsed;
+        try {
+          parsed = JSON.parse(data.message);
+        } catch {
+          // If direct parse fails, try regex extraction
+          const jsonMatch = data.message.match(/\{[\s\S]*?"parameters"[\s\S]*?\}/);
+          if (jsonMatch) {
+            parsed = JSON.parse(jsonMatch[0]);
           }
+        }
+        
+        if (parsed?.parameters) {
+          // Update model parameters
+          Object.entries(parsed.parameters).forEach(([key, value]) => {
+            updateParameter(key as keyof typeof parameters, value as number);
+          });
+          
+          // Show only the description in chat
+          const aiResponse = {
+            id: (Date.now() + 1).toString(),
+            content: parsed.description || 'Object 3D berhasil dibuat',
+            isUser: false
+          };
+          setMessages(prev => [...prev, aiResponse]);
         } else {
-          throw new Error('No JSON found');
+          // No parameters, show raw message
+          const aiResponse = {
+            id: (Date.now() + 1).toString(),
+            content: data.message,
+            isUser: false
+          };
+          setMessages(prev => [...prev, aiResponse]);
         }
       } catch (parseError) {
-        // If parsing fails, show the raw message
+        console.error('Parse error:', parseError);
+        // If all parsing fails, show the raw message
         const aiResponse = {
           id: (Date.now() + 1).toString(),
-          content: data.message,
+          content: data.message || 'Gagal memproses response AI',
           isUser: false
         };
         setMessages(prev => [...prev, aiResponse]);
       }
     } catch (error) {
       console.error('Error:', error);
+      
       toast({
         title: "Error",
-        description: "Failed to get AI response. Please try again.",
+        description: error instanceof Error && error.message.includes('429')
+          ? "Rate limit tercapai. Silakan coba lagi dalam beberapa saat atau gunakan Lovable AI dengan Gemini (gratis sampai 6 Okt 2025)."
+          : "Gagal mendapatkan response AI. Silakan coba lagi.",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -332,7 +373,7 @@ const Chat = () => {
               <span className="font-medium text-white">Chat</span>
             </div>
             <ChatConversation messages={messages} />
-            <ChatControls onSubmit={handleNewMessage} />
+            <ChatControls onSubmit={handleNewMessage} disabled={isLoading} />
           </div>
           <ModelViewer parameters={parameters} />
           <ParametersPanel 
