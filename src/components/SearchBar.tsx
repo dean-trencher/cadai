@@ -1,8 +1,15 @@
 
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate('/chat');
+  };
+
   return (
     <div className="relative w-full max-w-2xl mx-auto mt-12">
       <div className="relative flex items-center bg-adam-light-gray rounded-full p-1 pl-4 pr-1 glow-pink">
@@ -16,8 +23,12 @@ const SearchBar: React.FC = () => {
           type="text"
           placeholder="Start building with CAD AI..."
           className="flex-grow bg-transparent text-white py-3 focus:outline-none"
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
         />
-        <button className="bg-adam-pink rounded-full p-3 transition-all duration-300 hover:bg-opacity-80">
+        <button 
+          onClick={handleSearch}
+          className="bg-adam-pink rounded-full p-3 transition-all duration-300 hover:bg-opacity-80"
+        >
           <ArrowRight size={20} className="text-white" />
         </button>
       </div>
