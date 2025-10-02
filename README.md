@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/328de7c5-7688-4cf6-bc54-0daafe636b06
+**URL**: zenithecosystem.space
 
 ## How can I edit this code?
 
