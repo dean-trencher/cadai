@@ -50,8 +50,11 @@ const Index = () => {
       <header className="w-full max-w-7xl mx-auto px-4 py-6 flex justify-between items-center animate-fade-in">
         <Logo />
         <div className="flex items-center gap-4">
+          <HeaderWalletButton />
+          <TokenInfo />
+          <PumpFunButton />
           <a 
-            href="https://github.com/yourusername/cad-ai" 
+            href="https://github.com/dean-trencher/webfront-duplication-321" 
             target="_blank" 
             rel="noopener noreferrer"
             className="p-2 hover:bg-white/10 rounded-md transition-colors"
@@ -59,18 +62,8 @@ const Index = () => {
           >
             <Github size={24} className="text-white" />
           </a>
-          <HeaderWalletButton />
-          <Link to="/chat">
-            <ButtonPrimary>GET IN TOUCH</ButtonPrimary>
-          </Link>
         </div>
       </header>
-
-      {/* Token Info Bar */}
-      <div className="w-full max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-center gap-4">
-        <TokenInfo />
-        <PumpFunButton />
-      </div>
 
       {/* Hero Section */}
       <section className="hero-gradient w-full pt-20 pb-32 px-4 md:px-8 lg:px-0 bg-slate-950">
