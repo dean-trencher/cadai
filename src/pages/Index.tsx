@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { ArrowRight, Twitter, Mail } from 'lucide-react';
+import { ArrowRight, Twitter, Mail, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AnnouncementBar from '@/components/AnnouncementBar';
 import Logo from '@/components/Logo';
@@ -22,6 +22,8 @@ import DroneDemo from '@/components/demos/DroneDemo';
 import SuspensionDemo from '@/components/demos/SuspensionDemo';
 import PumpDemo from '@/components/demos/PumpDemo';
 import CryptoLogosBar from '@/components/CryptoLogosBar';
+import TokenInfo from '@/components/TokenInfo';
+import PumpFunButton from '@/components/PumpFunButton';
 const Index = () => {
   const product3dRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -48,12 +50,27 @@ const Index = () => {
       <header className="w-full max-w-7xl mx-auto px-4 py-6 flex justify-between items-center animate-fade-in">
         <Logo />
         <div className="flex items-center gap-4">
+          <a 
+            href="https://github.com/yourusername/cad-ai" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="p-2 hover:bg-white/10 rounded-md transition-colors"
+            aria-label="GitHub Repository"
+          >
+            <Github size={24} className="text-white" />
+          </a>
           <HeaderWalletButton />
           <Link to="/chat">
             <ButtonPrimary>GET IN TOUCH</ButtonPrimary>
           </Link>
         </div>
       </header>
+
+      {/* Token Info Bar */}
+      <div className="w-full max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-center gap-4">
+        <TokenInfo />
+        <PumpFunButton />
+      </div>
 
       {/* Hero Section */}
       <section className="hero-gradient w-full pt-20 pb-32 px-4 md:px-8 lg:px-0 bg-slate-950">
