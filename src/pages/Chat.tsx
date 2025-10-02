@@ -25,23 +25,18 @@ const ProjectCard = ({
   imageSrc: string;
   onRemix: () => void;
 }) => {
-  return <div className="bg-adam-gray rounded-lg overflow-hidden cursor-pointer hover:bg-adam-gray/80 transition-colors">
+  return <div 
+      onClick={onRemix}
+      className="bg-adam-gray rounded-lg overflow-hidden cursor-pointer hover:bg-adam-gray/80 transition-colors"
+    >
       <div className="h-40 flex items-center justify-center bg-adam-dark p-4">
         <img src={imageSrc} alt={title} className="max-h-full w-full object-contain" />
       </div>
       <div className="p-3">
         <h3 className="font-medium text-white mb-2">{title}</h3>
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full bg-adam-pink flex items-center justify-center text-xs text-white">A</div>
-            <span className="text-xs text-white/60">Adam</span>
-          </div>
-          <button 
-            onClick={onRemix}
-            className="text-xs bg-adam-gray/80 hover:bg-adam-light-gray text-white/70 py-1 px-2 rounded flex items-center gap-1 transition-colors"
-          >
-            <span>Remix</span>
-          </button>
+        <div className="flex items-center gap-2">
+          <div className="w-5 h-5 rounded-full bg-adam-pink flex items-center justify-center text-xs text-white">A</div>
+          <span className="text-xs text-white/60">anonymous</span>
         </div>
       </div>
     </div>;
@@ -57,7 +52,7 @@ const Chat = () => {
   const { isConnected, walletAddress } = useWalletDetection();
   const { parameters, updateParameter } = useModelParameters();
 
-  const featuredProjects = [{
+  const recentProjects = [{
     title: 'Jewelry Holder',
     imageSrc: '/lovable-uploads/af99a164-9ee9-4a6f-8b0a-947e590f5f3e.png'
   }, {
@@ -272,9 +267,9 @@ const Chat = () => {
             </form>
 
             <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-6">Featured Projects</h2>
+              <h2 className="text-2xl font-bold mb-6">Recent Projects</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {featuredProjects.map((project, index) => (
+                {recentProjects.map((project, index) => (
                   <ProjectCard 
                     key={index} 
                     title={project.title} 
