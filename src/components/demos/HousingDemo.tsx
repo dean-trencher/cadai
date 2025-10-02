@@ -86,7 +86,7 @@ const HousingDemo: React.FC = () => {
         <OrbitControls enableZoom={true} />
       </Canvas>
       
-      <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm px-3 py-2 rounded-lg">
+      <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm px-3 py-2 rounded-lg mx-[20px]">
         <div className="text-white text-sm font-medium">Arduino Nano Enclosure</div>
         <div className="text-white/70 text-xs">Snap-fit electronics housing</div>
       </div>
