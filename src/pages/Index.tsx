@@ -108,7 +108,7 @@ const Index = () => {
         
         <div className="max-w-7xl mx-auto space-y-12">
           {/* Demo Grid - 8 Complex Demos */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 animate-fade-in">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 animate-fade-in">
             {/* Gear System Demo */}
             <div className="relative">
               <div className="bg-adam-gray/40 rounded-lg p-2 overflow-hidden">
