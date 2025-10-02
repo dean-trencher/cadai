@@ -49,7 +49,9 @@ const Index = () => {
         <Logo />
         <div className="flex items-center gap-4">
           <HeaderWalletButton />
-          <ButtonPrimary>GET IN TOUCH</ButtonPrimary>
+          <Link to="/chat">
+            <ButtonPrimary>GET IN TOUCH</ButtonPrimary>
+          </Link>
         </div>
       </header>
 
