@@ -141,12 +141,40 @@ const Chat = () => {
         }
 
         const data = await response.json();
-        const aiResponse = {
-          id: (Date.now() + 1).toString(),
-          content: data.message,
-          isUser: false
-        };
-        setMessages(prev => [...prev, aiResponse]);
+        
+        // Try to parse 3D parameters from AI response
+        try {
+          const jsonMatch = data.message.match(/\{[\s\S]*"parameters"[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            if (parsed.parameters) {
+              // Update model parameters
+              Object.entries(parsed.parameters).forEach(([key, value]) => {
+                updateParameter(key as keyof typeof parameters, value as number);
+              });
+              
+              // Show only the description in chat
+              const aiResponse = {
+                id: (Date.now() + 1).toString(),
+                content: parsed.description || data.message,
+                isUser: false
+              };
+              setMessages(prev => [...prev, aiResponse]);
+            } else {
+              throw new Error('No parameters found');
+            }
+          } else {
+            throw new Error('No JSON found');
+          }
+        } catch (parseError) {
+          // If parsing fails, show the raw message
+          const aiResponse = {
+            id: (Date.now() + 1).toString(),
+            content: data.message,
+            isUser: false
+          };
+          setMessages(prev => [...prev, aiResponse]);
+        }
       } catch (error) {
         console.error('Error:', error);
         toast({
@@ -186,12 +214,40 @@ const Chat = () => {
       }
 
       const data = await response.json();
-      const aiResponse = {
-        id: (Date.now() + 1).toString(),
-        content: data.message,
-        isUser: false
-      };
-      setMessages(prev => [...prev, aiResponse]);
+      
+      // Try to parse 3D parameters from AI response
+      try {
+        const jsonMatch = data.message.match(/\{[\s\S]*"parameters"[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          if (parsed.parameters) {
+            // Update model parameters
+            Object.entries(parsed.parameters).forEach(([key, value]) => {
+              updateParameter(key as keyof typeof parameters, value as number);
+            });
+            
+            // Show only the description in chat
+            const aiResponse = {
+              id: (Date.now() + 1).toString(),
+              content: parsed.description || data.message,
+              isUser: false
+            };
+            setMessages(prev => [...prev, aiResponse]);
+          } else {
+            throw new Error('No parameters found');
+          }
+        } else {
+          throw new Error('No JSON found');
+        }
+      } catch (parseError) {
+        // If parsing fails, show the raw message
+        const aiResponse = {
+          id: (Date.now() + 1).toString(),
+          content: data.message,
+          isUser: false
+        };
+        setMessages(prev => [...prev, aiResponse]);
+      }
     } catch (error) {
       console.error('Error:', error);
       toast({

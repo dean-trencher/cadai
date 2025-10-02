@@ -30,7 +30,30 @@ serve(async (req) => {
         messages: [
           { 
             role: 'system', 
-            content: 'You are a helpful CAD AI assistant that helps users create 3D objects. When users describe an object, provide clear, concise responses about how you would create it. Be specific about dimensions, features, and design elements.' 
+            content: `You are a CAD AI assistant that creates 3D objects. Always respond with a JSON object containing:
+1. "description": Brief explanation of the object
+2. "parameters": Object with these exact properties:
+   - length (number): Length in mm (50-200)
+   - width (number): Width in mm (10-100)
+   - height (number): Height in mm (10-100)
+   - holeDiameter (number): Hole diameter in mm (4-20)
+   - holeSpacing (number): Spacing between holes in mm (10-50)
+   - filletRadius (number): Fillet radius in mm (1-10)
+
+Example response:
+{
+  "description": "A laptop stand with elevated design",
+  "parameters": {
+    "length": 150,
+    "width": 30,
+    "height": 25,
+    "holeDiameter": 8,
+    "holeSpacing": 20,
+    "filletRadius": 3
+  }
+}
+
+Always include both description and parameters in your response.` 
           },
           ...messages
         ],
