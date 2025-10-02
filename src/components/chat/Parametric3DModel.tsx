@@ -7,11 +7,13 @@ import { ModelParameters } from '@/hooks/useModelParameters';
 interface Parametric3DModelProps {
   parameters: ModelParameters;
   autoRotate?: boolean;
+  color?: string;
 }
 
 const Parametric3DModel: React.FC<Parametric3DModelProps> = ({ 
   parameters, 
-  autoRotate = true 
+  autoRotate = true,
+  color = "#4A90E2"
 }) => {
   const meshRef = useRef<Mesh>(null);
   const holesGroupRef = useRef<THREE.Group>(null);
@@ -70,7 +72,7 @@ const Parametric3DModel: React.FC<Parametric3DModelProps> = ({
       {/* Main object */}
       <mesh ref={meshRef} geometry={mainGeometry}>
         <meshStandardMaterial 
-          color="#4A90E2" 
+          color={color} 
           metalness={0.7} 
           roughness={0.3}
         />

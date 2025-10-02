@@ -90,7 +90,7 @@ const Index = () => {
           <div className="lg:w-1/2 flex justify-center relative animate-fade-in">
             <div ref={product3dRef} className="relative animate-float w-full max-w-md">
               <div className="h-96 md:h-[400px]">
-                <Interactive3DViewer showColorPicker={false} />
+                <Interactive3DViewer showColorPicker={true} />
               </div>
             </div>
           </div>
