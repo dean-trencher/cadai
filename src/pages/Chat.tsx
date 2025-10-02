@@ -109,7 +109,7 @@ const Chat = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (prompt.trim()) {
       const newMessage = {
@@ -117,45 +117,89 @@ const Chat = () => {
         content: prompt,
         isUser: true
       };
-      setMessages([...messages, newMessage]);
+      const updatedMessages = [...messages, newMessage];
+      setMessages(updatedMessages);
+      setShowConversation(true);
+      setPrompt('');
       
-      setTimeout(() => {
+      try {
+        const response = await fetch('https://qayhwdfoofonllwwybgw.supabase.co/functions/v1/chat-completion', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            messages: updatedMessages.map(msg => ({
+              role: msg.isUser ? 'user' : 'assistant',
+              content: msg.content
+            }))
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to get AI response');
+        }
+
+        const data = await response.json();
         const aiResponse = {
           id: (Date.now() + 1).toString(),
-          content: "I've created a long block with 5 holes in a line on the side profile. Each hole is centered along the length.",
+          content: data.message,
           isUser: false
         };
         setMessages(prev => [...prev, aiResponse]);
-      }, 1000);
-      
-      setShowConversation(true);
-      setPrompt('');
+      } catch (error) {
+        console.error('Error:', error);
+        toast({
+          title: "Error",
+          description: "Failed to get AI response. Please try again.",
+          variant: "destructive",
+        });
+      }
     }
   };
   
-  const handleNewMessage = (message: string) => {
+  const handleNewMessage = async (message: string) => {
     const newMessage = {
       id: Date.now().toString(),
       content: message,
       isUser: true
     };
-    setMessages([...messages, newMessage]);
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
     
-    setTimeout(() => {
-      const aiResponses = [
-        "I've adjusted the holes to be more centered.",
-        "I've extruded a slit above each hole that is half the width of the hole.",
-        "I've filleted the edges to make them smoother."
-      ];
-      const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
-      
+    try {
+      const response = await fetch('https://qayhwdfoofonllwwybgw.supabase.co/functions/v1/chat-completion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: updatedMessages.map(msg => ({
+            role: msg.isUser ? 'user' : 'assistant',
+            content: msg.content
+          }))
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get AI response');
+      }
+
+      const data = await response.json();
       const aiResponse = {
         id: (Date.now() + 1).toString(),
-        content: randomResponse,
+        content: data.message,
         isUser: false
       };
       setMessages(prev => [...prev, aiResponse]);
-    }, 1000);
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to get AI response. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
