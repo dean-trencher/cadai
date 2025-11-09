@@ -6,28 +6,16 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
 
-// Validation schemas
+// Validation schemas - basic validation only
 const contractAddressSchema = z
   .string()
-  .regex(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/, 'Invalid Solana contract address format')
-  .max(44, 'Contract address must be less than 44 characters');
+  .min(1, 'Contract address is required')
+  .max(100, 'Contract address is too long');
 
 const pumpFunLinkSchema = z
   .string()
-  .max(2048, 'URL must be less than 2048 characters')
-  .url('Invalid URL format')
-  .refine((url) => url.startsWith('https://'), 'URL must use HTTPS')
-  .refine(
-    (url) => {
-      try {
-        const parsedUrl = new URL(url);
-        return parsedUrl.hostname === 'pump.fun' || parsedUrl.hostname.endsWith('.pump.fun');
-      } catch {
-        return false;
-      }
-    },
-    'URL must be from pump.fun domain'
-  );
+  .min(1, 'Link is required')
+  .max(2048, 'Link is too long');
 
 const Edit: React.FC = () => {
   const navigate = useNavigate();
@@ -158,8 +146,8 @@ const Edit: React.FC = () => {
                 setContractAddress(e.target.value);
                 setErrors(prev => ({ ...prev, contractAddress: undefined }));
               }}
-              placeholder="Enter $CADAI contract address (32-44 chars)"
-              maxLength={44}
+              placeholder="Enter $CADAI contract address"
+              maxLength={100}
               className={`w-full bg-adam-gray/40 border rounded-lg px-4 py-3 text-white 
                 placeholder:text-white/40 focus:outline-none focus:border-adam-pink transition-colors
                 ${errors.contractAddress ? 'border-red-500' : 'border-white/10'}`}
