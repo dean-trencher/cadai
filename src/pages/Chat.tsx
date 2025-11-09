@@ -10,6 +10,7 @@ import Logo from '@/components/Logo';
 import { useToast } from '@/hooks/use-toast';
 import { useWalletDetection } from '@/hooks/useWalletDetection';
 import { useModelParameters } from '@/hooks/useModelParameters';
+import { supabase } from '@/integrations/supabase/client';
 
 // Import images
 import laptopStandImage from '@/assets/laptop-stand-cad.jpg';
@@ -123,24 +124,19 @@ const Chat = () => {
       setPrompt('');
       
       try {
-        const response = await fetch('https://qayhwdfoofonllwwybgw.supabase.co/functions/v1/chat-completion', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
+        const { data, error } = await supabase.functions.invoke('chat-completion', {
+          body: {
             messages: updatedMessages.map(msg => ({
               role: msg.isUser ? 'user' : 'assistant',
               content: msg.content
             }))
-          }),
+          }
         });
 
-        if (!response.ok) {
+        if (error) {
           throw new Error('Failed to get AI response');
         }
 
-        const data = await response.json();
         const aiResponse = {
           id: (Date.now() + 1).toString(),
           content: data.message,
@@ -168,24 +164,19 @@ const Chat = () => {
     setMessages(updatedMessages);
     
     try {
-      const response = await fetch('https://qayhwdfoofonllwwybgw.supabase.co/functions/v1/chat-completion', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('chat-completion', {
+        body: {
           messages: updatedMessages.map(msg => ({
             role: msg.isUser ? 'user' : 'assistant',
             content: msg.content
           }))
-        }),
+        }
       });
 
-      if (!response.ok) {
+      if (error) {
         throw new Error('Failed to get AI response');
       }
 
-      const data = await response.json();
       const aiResponse = {
         id: (Date.now() + 1).toString(),
         content: data.message,
