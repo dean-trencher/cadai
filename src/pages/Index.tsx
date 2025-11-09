@@ -44,7 +44,7 @@ const Index = () => {
       <WalletSidebarTrigger />
       
       {/* Announcement Bar */}
-      <AnnouncementBar />
+      
 
       {/* Header */}
       <header className="w-full max-w-7xl mx-auto px-4 py-6 flex justify-between items-center animate-fade-in">
@@ -53,13 +53,7 @@ const Index = () => {
           <HeaderWalletButton />
           <TokenInfo />
           <PumpFunButton />
-          <a 
-            href="https://github.com/dean-trencher/webfront-duplication-321" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="p-2 hover:bg-white/10 rounded-md transition-colors"
-            aria-label="GitHub Repository"
-          >
+          <a href="https://github.com/dean-trencher/webfront-duplication-321" target="_blank" rel="noopener noreferrer" className="p-2 hover:bg-white/10 rounded-md transition-colors" aria-label="GitHub Repository">
             <Github size={24} className="text-white" />
           </a>
         </div>
