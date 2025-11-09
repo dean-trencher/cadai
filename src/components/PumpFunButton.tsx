@@ -1,14 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink } from 'lucide-react';
 import ButtonPrimary from './ButtonPrimary';
+import { supabase } from '@/integrations/supabase/client';
 
 const PumpFunButton: React.FC = () => {
-  const [pumpFunLink, setPumpFunLink] = useState('');
+  const [pumpFunLink, setPumpFunLink] = useState('#');
 
   useEffect(() => {
-    const savedLink = localStorage.getItem('cadai_pumpfun_link') || '#';
-    setPumpFunLink(savedLink);
+    loadPumpFunLink();
   }, []);
+
+  const loadPumpFunLink = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('app_settings')
+        .select('pumpfun_link')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error loading pump.fun link:', error);
+        return;
+      }
+
+      if (data && data.pumpfun_link) {
+        setPumpFunLink(data.pumpfun_link);
+      }
+    } catch (error) {
+      console.error('Error loading pump.fun link:', error);
+    }
+  };
 
   const handleClick = () => {
     if (pumpFunLink && pumpFunLink !== '#') {

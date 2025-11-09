@@ -14,7 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      app_settings: {
+        Row: {
+          contract_address: string | null
+          created_at: string
+          id: string
+          pumpfun_link: string | null
+          updated_at: string
+        }
+        Insert: {
+          contract_address?: string | null
+          created_at?: string
+          id?: string
+          pumpfun_link?: string | null
+          updated_at?: string
+        }
+        Update: {
+          contract_address?: string | null
+          created_at?: string
+          id?: string
+          pumpfun_link?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

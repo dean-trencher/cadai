@@ -1,15 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 const TokenInfo: React.FC = () => {
-  const [contractAddress, setContractAddress] = useState('');
+  const [contractAddress, setContractAddress] = useState('TBA - Set in /edit');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const savedAddress = localStorage.getItem('cadai_contract_address') || 'TBA - Set in /edit';
-    setContractAddress(savedAddress);
+    loadContractAddress();
   }, []);
+
+  const loadContractAddress = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('app_settings')
+        .select('contract_address')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error loading contract address:', error);
+        return;
+      }
+
+      if (data && data.contract_address) {
+        setContractAddress(data.contract_address);
+      }
+    } catch (error) {
+      console.error('Error loading contract address:', error);
+    }
+  };
 
   const handleCopy = async () => {
     try {
