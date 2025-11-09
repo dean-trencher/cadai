@@ -4,6 +4,30 @@ import { ArrowLeft, Save } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { z } from 'zod';
+
+// Validation schemas
+const contractAddressSchema = z
+  .string()
+  .regex(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/, 'Invalid Solana contract address format')
+  .max(44, 'Contract address must be less than 44 characters');
+
+const pumpFunLinkSchema = z
+  .string()
+  .max(2048, 'URL must be less than 2048 characters')
+  .url('Invalid URL format')
+  .refine((url) => url.startsWith('https://'), 'URL must use HTTPS')
+  .refine(
+    (url) => {
+      try {
+        const parsedUrl = new URL(url);
+        return parsedUrl.hostname === 'pump.fun' || parsedUrl.hostname.endsWith('.pump.fun');
+      } catch {
+        return false;
+      }
+    },
+    'URL must be from pump.fun domain'
+  );
 
 const Edit: React.FC = () => {
   const navigate = useNavigate();
@@ -11,6 +35,7 @@ const Edit: React.FC = () => {
   const [pumpFunLink, setPumpFunLink] = useState('');
   const [settingsId, setSettingsId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ contractAddress?: string; pumpFunLink?: string }>({});
 
   useEffect(() => {
     loadSettings();
@@ -43,7 +68,31 @@ const Edit: React.FC = () => {
   };
 
   const handleSave = async () => {
+    // Validate inputs
+    const validationErrors: { contractAddress?: string; pumpFunLink?: string } = {};
+    
+    // Validate contract address
+    const contractResult = contractAddressSchema.safeParse(contractAddress);
+    if (!contractResult.success) {
+      validationErrors.contractAddress = contractResult.error.errors[0].message;
+    }
+    
+    // Validate pump.fun link
+    const linkResult = pumpFunLinkSchema.safeParse(pumpFunLink);
+    if (!linkResult.success) {
+      validationErrors.pumpFunLink = linkResult.error.errors[0].message;
+    }
+    
+    // If there are validation errors, show them and don't proceed
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      toast.error('Please fix the validation errors');
+      return;
+    }
+    
+    setErrors({});
     setIsLoading(true);
+    
     try {
       if (settingsId) {
         // Update existing settings
@@ -105,11 +154,19 @@ const Edit: React.FC = () => {
               id="contractAddress"
               type="text"
               value={contractAddress}
-              onChange={(e) => setContractAddress(e.target.value)}
-              placeholder="Enter $CADAI contract address"
-              className="w-full bg-adam-gray/40 border border-white/10 rounded-lg px-4 py-3 text-white 
-                placeholder:text-white/40 focus:outline-none focus:border-adam-pink transition-colors"
+              onChange={(e) => {
+                setContractAddress(e.target.value);
+                setErrors(prev => ({ ...prev, contractAddress: undefined }));
+              }}
+              placeholder="Enter $CADAI contract address (32-44 chars)"
+              maxLength={44}
+              className={`w-full bg-adam-gray/40 border rounded-lg px-4 py-3 text-white 
+                placeholder:text-white/40 focus:outline-none focus:border-adam-pink transition-colors
+                ${errors.contractAddress ? 'border-red-500' : 'border-white/10'}`}
             />
+            {errors.contractAddress && (
+              <p className="mt-1 text-sm text-red-500">{errors.contractAddress}</p>
+            )}
           </div>
 
           <div>
@@ -120,11 +177,19 @@ const Edit: React.FC = () => {
               id="pumpFunLink"
               type="url"
               value={pumpFunLink}
-              onChange={(e) => setPumpFunLink(e.target.value)}
+              onChange={(e) => {
+                setPumpFunLink(e.target.value);
+                setErrors(prev => ({ ...prev, pumpFunLink: undefined }));
+              }}
               placeholder="https://pump.fun/..."
-              className="w-full bg-adam-gray/40 border border-white/10 rounded-lg px-4 py-3 text-white 
-                placeholder:text-white/40 focus:outline-none focus:border-adam-pink transition-colors"
+              maxLength={2048}
+              className={`w-full bg-adam-gray/40 border rounded-lg px-4 py-3 text-white 
+                placeholder:text-white/40 focus:outline-none focus:border-adam-pink transition-colors
+                ${errors.pumpFunLink ? 'border-red-500' : 'border-white/10'}`}
             />
+            {errors.pumpFunLink && (
+              <p className="mt-1 text-sm text-red-500">{errors.pumpFunLink}</p>
+            )}
           </div>
 
           <button
